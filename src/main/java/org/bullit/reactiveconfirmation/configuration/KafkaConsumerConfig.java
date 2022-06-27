@@ -8,7 +8,6 @@ import org.apache.kafka.common.TopicPartitionInfo;
 import org.bullit.reactiveconfirmation.domain.Confirmation;
 import org.bullit.reactiveconfirmation.service.ConfirmationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
@@ -80,7 +79,7 @@ public class KafkaConsumerConfig {
 
     @Bean
     public ConfirmationService confirmationService(Flux<Confirmation> confirmationFlux,
-                                                   @Qualifier("timeout") Duration timeout) {
+                                                   @Value("${flux.timeout}") Duration timeout) {
         return new ConfirmationService(confirmationFlux, timeout);
     }
 
