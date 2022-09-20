@@ -23,7 +23,7 @@ public class ConfirmationController {
     @PostConstruct
     private void log() {
         Flux.from(confirmationFlux)
-                .subscribe(c -> log.info(String.format("Received confirmation: %s", c.toString())));
+                .subscribe(c -> log.debug(String.format("Received confirmation: %s", c.toString())));
     }
 
     @PostMapping
