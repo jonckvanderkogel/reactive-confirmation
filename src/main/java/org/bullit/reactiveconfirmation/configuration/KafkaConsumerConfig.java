@@ -68,11 +68,13 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public Flux<Confirmation> confirmationFlux(@Autowired ReactiveKafkaConsumerTemplate<String, Confirmation> kafkaConsumerTemplate) {
+    public Flux<Confirmation> confirmationFlux(
+            @Autowired ReactiveKafkaConsumerTemplate<String, Confirmation> kafkaConsumerTemplate,
+            @Qualifier("timeout") Duration timeout) {
         return kafkaConsumerTemplate
                 .receive()
                 .share()
-                .cache(Duration.ofSeconds(60))
+                .cache(timeout)
                 .map(ConsumerRecord::value)
                 .doOnError(ex -> log.error(String.format("Something bad happened: %s", ex.getMessage())));
     }

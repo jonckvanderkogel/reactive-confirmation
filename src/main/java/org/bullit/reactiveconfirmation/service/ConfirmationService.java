@@ -35,10 +35,7 @@ public class ConfirmationService {
 
     public Mono<Confirmation> getConfirmation(Long id) {
         return Flux.merge(confirmationFlux, timedFluxFun.apply(id, timeout))
-                .filter(c -> {
-                    log.info(String.format("Event: %s", c));
-                    return c.getId().equals(id);
-                })
+                .filter(c -> c.getId().equals(id))
                 .takeUntil(c -> c.getStatus().isTerminal())
                 .reduce((c1, c2) -> STATUS_COMPARATOR.compare(c1.getStatus(), c2.getStatus()) > 0 ? c1 : c2);
     }
