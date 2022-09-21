@@ -1,9 +1,9 @@
 package org.bullit.reactiveconfirmation.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.bullit.reactiveconfirmation.domain.Confirmation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.kafka.core.reactive.ReactiveKafkaProducerTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -16,7 +16,7 @@ public class MessageProducerService {
     private final String topic;
 
     public MessageProducerService(@Autowired ReactiveKafkaProducerTemplate<String, Confirmation> kafkaTemplate,
-                                  @Value("${kafka.topic})") String topic) {
+                                  @Qualifier("topic") String topic) {
         this.kafkaTemplate = kafkaTemplate;
         this.topic = topic;
     }
